@@ -53,21 +53,34 @@ class Lista_circular:
             aux.proximo = no
         self.tamanho += 1
 
-    # def remove(self, valor):
-    #     aux = self.inicio
-    #     while aux:
-    #         if aux.valor == valor:
-    #             self.inicio = aux.proximo
-    #             self.fim.proximo = self.inicio
-    #         if aux.proximo.valor == valor:
-    #             if aux.proximo == self.fim:
-    #                 self.fim = aux
-    #                 self.inicio = self.fim
-    #             else:
-    #                 aux.proximo = aux.proximo.proximo
-    #         self.tamanho -= 1
-    #         aux = aux.proximo
-    #         break
+    def remove(self, valor):
+        aux = self.inicio
+        if self.tamanho == 0:
+            return print("Não é possível remover de uma lista vazia")
+        elif self.tamanho == 1 and aux.valor == valor:
+            self.inicio = None
+            self.fim = None
+            self.tamanho -= 1
+        else:
+            while aux.proximo != self.inicio:
+                if aux.valor == valor:
+                    self.inicio = aux.proximo
+                    self.fim.proximo = self.inicio
+                    self.tamanho -= 1
+                    return  
+                elif aux.proximo.valor == valor:
+                    if aux.proximo == self.fim:
+                        self.fim = aux
+                        self.fim.proximo = self.inicio
+                        self.tamanho -= 1
+                        return
+                    else:
+                        aux.proximo = aux.proximo.proximo
+                        self.tamanho -= 1
+                        return
+                else:
+                    aux = aux.proximo
+            return print("Elemento não encontrado na lista")
 
     def mostrar(self):
         if self.tamanho > 0:
@@ -112,16 +125,17 @@ class Lista_circular:
 
 lista = Lista_circular()
 
+# ADICIONANDO ELEMENTOS
 lista.append(1)
 lista.append(2)
 lista.append(3)
 lista.append(4)
 
-
 print(lista)
 print(f'Tamanho: {lista.tamanho}\n')
 
-lista.remove(6)
+
+lista.remove(4)
 
 
 print(lista)
