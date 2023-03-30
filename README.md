@@ -1,2 +1,1 @@
-Criação de uma lista encadeada
-futuramente: lista circular
+Criação das listas encadeada e circular
