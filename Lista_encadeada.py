@@ -1,11 +1,11 @@
 from No import No
 
-
 class Lista_encadeada:
     def __init__(self):
         self.inicio = None
         self.tamanho = 0
 
+# FUNÇÕES PARA ADICIONAR
     def append(self, valor):
         no = No(valor)
         if self.tamanho == 0:
@@ -16,16 +16,6 @@ class Lista_encadeada:
                 aux = aux.proximo
             aux.proximo = no
         self.tamanho += 1
-
-    def mostrar(self):
-        if self.tamanho > 0:
-            aux = self.inicio
-            while aux is not None:
-                print(aux.valor, end=" ")
-                aux = aux.proximo
-            print()
-        else:
-            print("Lista vazia")
 
     def insert(self, index, valor):
         if index <= 0:
@@ -44,6 +34,17 @@ class Lista_encadeada:
             aux.proximo = no
             self.tamanho += 1
 
+# FUNÇÕES PARA REMOVER
+    def pop(self):
+        if self.tamanho > 0:
+            aux = self.inicio
+            for i in range(self.tamanho - 2):
+                aux = aux.proximo
+            aux.proximo = None
+            self.tamanho -= 1
+        else:
+            print("Não é possível remover um elemento de uma lista vazia")
+
     def remove(self, valor):
         aux = self.inicio
         while aux.proximo is not None:
@@ -54,15 +55,16 @@ class Lista_encadeada:
             else:
                 aux = aux.proximo
 
-    def pop(self):
+# FUNÇÕES PARA EXIBIR A LISTA
+    def mostrar(self):
         if self.tamanho > 0:
             aux = self.inicio
-            for i in range(self.tamanho - 2):
+            while aux is not None:
+                print(aux.valor, end=" ")
                 aux = aux.proximo
-            aux.proximo = None
-            self.tamanho -= 1
+            print()
         else:
-            print("Não é possível remover um elemento de uma lista vazia")
+            print("Lista vazia")
 
     def __str__(self):
         return self.__repr__()
@@ -78,6 +80,7 @@ class Lista_encadeada:
         else:
             return "lista vazia"
 
+# FUNÇÃO DE BUSCA DE ELEMENTO PELO INDICE
     def __getitem__(self, index):
         aux = self.inicio
         if index < 0 or index >= self.size:
@@ -86,16 +89,3 @@ class Lista_encadeada:
             for i in range(index):
                 aux = aux.proximo
             return aux.valor
-
-
-lista = Lista_encadeada()
-
-lista.append(23)
-lista.append(42)
-lista.append(25)
-lista.insert(1, 10)
-# lista.pop()
-# lista.remove(10)
-print(lista)
-print(lista[-4])
-print(f'tamanho: {lista.tamanho}')
