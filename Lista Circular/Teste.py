@@ -16,4 +16,3 @@ lista.remove(1)
 
 print("\nDEPOIS:")
 print(f'[{lista}]  tamanho:{lista.tamanho}\n')
-

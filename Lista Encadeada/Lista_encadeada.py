@@ -47,13 +47,21 @@ class Lista_encadeada:
 
     def remove(self, valor):
         aux = self.inicio
-        while aux.proximo is not None:
-            if aux.proximo.valor == valor:
-                aux.proximo = aux.proximo.proximo
+        if self.tamanho == 0:
+            print("Não é possível remover de uma lista vazia")
+        else:
+            if aux.valor == valor:
+                self.inicio = aux.proximo
                 self.tamanho -= 1
-                break
             else:
-                aux = aux.proximo
+                while aux.proximo is not None:
+                    if aux.proximo.valor == valor:
+                        aux.proximo = aux.proximo.proximo
+                        self.tamanho -= 1
+                        return
+                    else:
+                        aux = aux.proximo
+                return print("Elemento não encontrado na lista")
 
 # FUNÇÕES PARA EXIBIR A LISTA
     def mostrar(self):
@@ -73,9 +81,13 @@ class Lista_encadeada:
         if self.tamanho > 0:
             r = ""
             aux = self.inicio
-            while aux is not None:
-                r += str(aux.valor) + " "
-                aux = aux.proximo
+            while aux:
+                if aux.proximo != None:
+                    r += str(aux.valor) + " "
+                    aux = aux.proximo
+                else:
+                    r += str(aux.valor)
+                    break
             return r
         else:
             return "lista vazia"
@@ -83,7 +95,7 @@ class Lista_encadeada:
 # FUNÇÃO DE BUSCA DE ELEMENTO PELO INDICE
     def __getitem__(self, index):
         aux = self.inicio
-        if index < 0 or index >= self.size:
+        if index < 0 or index >= self.tamanho:
             return "list index out of range"
         else:
             for i in range(index):
