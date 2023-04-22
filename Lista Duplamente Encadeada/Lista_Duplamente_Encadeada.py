@@ -49,7 +49,6 @@ class Lista_Duplamente_Encadeada:
             aux.proximo = None
             self.tamanho -= 1
 
-# falta ajeitar
     def remove(self, valor):
         aux = self.inicio
         if self.tamanho == 0:
@@ -126,6 +125,3 @@ class Lista_Duplamente_Encadeada:
             for i in range(index):
                 aux = aux.proximo
             return aux.valor
-
-
-    
