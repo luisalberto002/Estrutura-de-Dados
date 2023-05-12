@@ -1,4 +1,4 @@
-from Lista_Duplamente_Ecadeada import *
+from Lista_Duplamente_Encadeada import *
 
 lista = Lista_Duplamente_Encadeada()
 
