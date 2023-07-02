@@ -50,8 +50,8 @@ class Arvore_Binaria:
                 return no.esquerda
             else:
                 aux = self.minimo(no.direita)
-                no.valor = aux.valor
-                no.direita = self.remover_recursivo(no.direita, aux.valor)
+                no.valor = aux
+                no.direita = self.remover_recursivo(no.direita, aux)
         return no
 
     def buscar(self, valor):

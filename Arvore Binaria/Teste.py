@@ -18,7 +18,6 @@ def mostrar_arvore_graficamente(raiz, canvas, x, y, x_dist, y_dist):
             mostrar_arvore_graficamente(raiz.direita, canvas, x_dir, y_dir, x_dist/2, y_dist)
 
 
-
 arvore = Arvore_Binaria()
 
 #            (5)                             (5)             
