@@ -8,6 +8,7 @@ class Arvore_Binaria:
     def inserir(self, valor):
         if self.raiz is None:
             self.raiz = No(valor)
+            self.balancear()
             self.tamanho += 1
             return
         aux = self.raiz
@@ -15,6 +16,7 @@ class Arvore_Binaria:
             if valor < aux.valor:
                 if aux.esquerda is None:
                     aux.esquerda = No(valor)
+                    self.balancear()
                     self.tamanho += 1
                     return
                 aux = aux.esquerda
@@ -22,17 +24,17 @@ class Arvore_Binaria:
                 if aux.direita is None:
                     aux.direita = No(valor)
                     self.tamanho += 1
+                    self.balancear()
                     return
                 aux = aux.direita
             else:
                 print(f'O valor {valor} já foi adicionado')
                 return
 
-    
     def remover(self, valor):
         self.raiz = self.remover_recursivo(self.raiz, valor)
+        self.balancear()
         self.tamanho -= 1
-
 
     def remover_recursivo(self, no, valor):
         if no is None:
@@ -52,7 +54,6 @@ class Arvore_Binaria:
                 no.direita = self.remover_recursivo(no.direita, aux.valor)
         return no
 
-    
     def buscar(self, valor):
         aux = self.raiz
         while aux:
@@ -67,7 +68,6 @@ class Arvore_Binaria:
                     return print(f'{valor} não está presente na árvore')
                 aux = aux.direita
 
-
     def pre_ordem(self):
         print('Pre-ordem:', end=' ')
         self.pre_ordem_percurso(self.raiz)
@@ -79,7 +79,6 @@ class Arvore_Binaria:
             self.pre_ordem_percurso(no.esquerda)
             self.pre_ordem_percurso(no.direita)
 
-
     def em_ordem(self):
         print('Em-ordem:', end=' ')
         self.em_ordem_percurso(self.raiz)
@@ -90,7 +89,6 @@ class Arvore_Binaria:
             self.em_ordem_percurso(no.esquerda)
             print(no, end=' ')
             self.em_ordem_percurso(no.direita)
-    
 
     def pos_ordem(self):
         print('Pos-ordem:', end=' ')
@@ -103,7 +101,6 @@ class Arvore_Binaria:
             self.pos_ordem_percurso(no.direita)
             print(no, end=' ')
 
-
     def minimo(self, no=None):
         if no is None:
             no = self.raiz
@@ -111,47 +108,67 @@ class Arvore_Binaria:
             no = no.esquerda
         return no.valor
 
-    def maximo(self,no=None):
+    def maximo(self, no=None):
         if no is None:
             no = self.raiz
         while no.direita:
             no = no.direita
         return no.valor
 
-
-    def altura(self,no=None):
+    def altura(self, no=None):
         if no is None:
             return -1
         else:
-            altura_esquerda = self.altura(no.esquerda)
-            altura_direita = self.altura(no.direita)
-            altura_atual = max(altura_esquerda, altura_direita) + 1
-            return altura_atual           
-    
+            altura_es = self.altura(no.esquerda)
+            altura_dir = self.altura(no.direita)
+            altura_atual = max(altura_es, altura_dir) + 1
+            return altura_atual
+
     def __len__(self):
         return self.tamanho
 
-
     def balancear(self):
-        pass
+        self.raiz = self.balancear_recursivo(self.raiz)
 
-    def p(self, no):
+    def balancear_recursivo(self, no):
         if no is None:
-            return 0
-        p_es = 0
-        p_di = 0
-        if (no.esquerda):
-            p_es= self.p(no.esquerda)
-        if (no.direita):
-            p_di = self.p(no.direita)
-        if (p_di > p_es):
-            return p_di + 1
-        return (p_es + 1)
+            return None
+        no.esquerda = self.balancear_recursivo(no.esquerda)
+        no.direita = self.balancear_recursivo(no.direita)
 
+        fb = self.calcular_fator_balanceamento(no)
 
-'''
-Fator de balanceamento de um nó
-FB = altura(subárvore da esquerda) - altura(subárvore da direita)
+        # RSD
+        if fb > 1 and self.calcular_fator_balanceamento(no.esquerda) >= 0:
+            return self.rotacao_direita(no)
 
+        # RSE
+        if fb < -1 and self.calcular_fator_balanceamento(no.direita) <= 0:
+            return self.rotacao_esquerda(no)
 
-'''
+        # RDD = RSD + RSE
+        if fb > 1 and self.calcular_fator_balanceamento(no.esquerda) < 0:
+            no.esquerda = self.rotacao_esquerda(no.esquerda)
+            return self.rotacao_direita(no)
+
+        # RDE = RSE + RSD
+        if fb < -1 and self.calcular_fator_balanceamento(no.direita) > 0:
+            no.direita = self.rotacao_direita(no.direita)
+            return self.rotacao_esquerda(no)
+
+        return no
+
+    def calcular_fator_balanceamento(self, no):
+        return self.altura(no.esquerda) - self.altura(no.direita)
+
+    def rotacao_direita(self, no):
+        novo_raiz = no.esquerda
+        no.esquerda = novo_raiz.direita
+        novo_raiz.direita = no
+        return novo_raiz
+
+    def rotacao_esquerda(self, no):
+        novo_raiz = no.direita
+        no.direita = novo_raiz.esquerda
+        novo_raiz.esquerda = no
+        return novo_raiz
