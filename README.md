@@ -1,7 +1,8 @@
-Neste projeto, serão criadas algumas estruturas de dados ao longo do tempo, tais como:
-Listas (Encadeada, circular, duplamente encadeada);
-Pilhas e Filas;
-Árvores;
-Grafos;
-
-OBS: Possivelmente, outras estruturas poderão ser criadas.
+Neste projeto, serão criadas algumas estruturas de dados como:
+<ul>
+  <li>Listas (Encadeada, circular, duplamente encadeada);</li>
+  <li>Pilhas;</li>
+  <li>Filas;</li>
+  <li>Árvores;</li>
+  <li>Grafos;</li>
+</ul>
