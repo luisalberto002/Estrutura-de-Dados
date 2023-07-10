@@ -172,3 +172,49 @@ class Arvore_Binaria:
         no.direita = novo_raiz.esquerda
         novo_raiz.esquerda = no
         return novo_raiz
+
+
+    def add(self, valor):
+        if self.raiz is None:
+            self.raiz = No(valor)
+            self.tamanho += 1
+            return
+        aux = self.raiz
+        while aux:
+            if valor < aux.valor:
+                if aux.esquerda is None:
+                    aux.esquerda = No(valor)
+                    self.tamanho += 1
+                    return
+                aux = aux.esquerda
+            elif valor > aux.valor:
+                if aux.direita is None:
+                    aux.direita = No(valor)
+                    self.tamanho += 1
+                    return
+                aux = aux.direita
+            else:
+                print(f'O valor {valor} já foi adicionado')
+                return
+
+    def delete(self, valor):
+        self.raiz = self.delete_recursivo(self.raiz, valor)
+        self.tamanho -= 1
+
+    def delete_recursivo(self, no, valor):
+        if no is None:
+            return None
+        if valor < no.valor:
+            no.esquerda = self.delete_recursivo(no.esquerda, valor)
+        elif valor > no.valor:
+            no.direita = self.delete_recursivo(no.direita, valor)
+        else:
+            if no.esquerda is None:
+                return no.direita
+            elif no.direita is None:
+                return no.esquerda
+            else:
+                aux = self.minimo(no.direita)
+                no.valor = aux
+                no.direita = self.delete_recursivo(no.direita, aux)
+        return no
